@@ -1,1 +1,33 @@
-<p>markers-page works!</p>
+<mgl-map
+  [style]="mapOptions.style"
+  [zoom]="[mapOptions.zoom]"
+  [center]="mapOptions.center"
+  (mapLoad)="setMap($event);"
+  class="fullscreen"
+/>
+
+<div class="fluent-marker-list">
+  <ul class="list-group">
+    <li
+      *ngFor="let marker of markers; index as i"
+      [ngStyle]="{ 'background': marker.color }"
+      class="list-group-item"
+      (dblclick)="deleteMarker(i);"
+      (click)="flyTo(marker.marker);"
+    >
+      Marker {{ i + 1 }}
+    </li>
+  </ul>
+</div>
+
+<button
+  class="btn btn-primary"
+  (click)="createMarker();"
+>
+  <i class="bi bi-pin-map-fill"></i> Agregar marcador
+</button>
+
+
+<div class="fluent-target-center">
+  <div><i class="bi bi-plus-circle-dotted"></i></div>
+</div>

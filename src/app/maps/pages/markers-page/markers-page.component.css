@@ -1,0 +1,19 @@
+button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+
+.fluent-marker-list {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
+.fluent-target-center {
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  transform: translateX(calc(-100% + 9px)) translateY(calc(-100% + 13px));
+  opacity: .5;
+}
