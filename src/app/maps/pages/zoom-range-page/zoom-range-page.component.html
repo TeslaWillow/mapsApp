@@ -5,6 +5,7 @@
   (mapLoad)="setMap($event);"
   (zoomEvt)="setMapListeners();"
   (zoomEnd)="zoomEnd();"
+  (move)="mapMove();"
   class="fullscreen"
 />
 
@@ -16,7 +17,7 @@
     <button
       class="btn btn-primary"
       (click)="zoomOut();"
-    > - </button>
+    > <i class="bi bi-zoom-out"></i> </button>
     <input
       #zoomInput
       type="range"
@@ -30,11 +31,11 @@
     <button
       class="btn btn-primary"
       (click)="zoomIn();"
-    > + </button>
+    > <i class="bi bi-zoom-in"></i> </button>
   </div>
   <span class="form-label">
     Zoom: {{ zoom | number:'2.2-2' }}
   </span>
   <br>
-  [Lng, Lat] [{{ -75 }}, {{ 5 }}]
+  [Lng, Lat] [{{currentLngLat.lng | number:'2.6-6' }},{{currentLngLat.lat | number:'2.6-6' }}]
 </div>

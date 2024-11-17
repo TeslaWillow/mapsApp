@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Map, MapOptions } from 'maplibre-gl';
+import { LngLat, Map, MapOptions } from 'maplibre-gl';
 import { enviroment } from 'src/environments/environment';
 
 @Component({
@@ -10,10 +10,11 @@ export class ZoomRangePageComponent {
 
   public map: Map;
   public zoom: number = 9;
+  public currentLngLat: LngLat = new LngLat(-86.46208035097027, 16.3737513361057);
   public mapOptions: MapOptions = {
     container: 'map',
     style: `https://api.maptiler.com/maps/streets/style.json?key=${enviroment.map_libre_key}`,
-    center: [-74.5, 40], //lat,lon
+    center: this.currentLngLat, //lat,lon
     zoom: this.zoom,
   };
 
@@ -44,6 +45,10 @@ export class ZoomRangePageComponent {
 
   public zoomOut(): void {
     this.map?.zoomOut();
+  }
+
+  public mapMove(): void {
+    this.currentLngLat = this.map.getCenter();
   }
 
 }
