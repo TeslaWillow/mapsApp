@@ -1,0 +1,4 @@
+li.list-group-item {
+  cursor: pointer;
+  transition: all ease .3s;
+}
