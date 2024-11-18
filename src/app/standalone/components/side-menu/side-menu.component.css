@@ -1,0 +1,11 @@
+ul.list-group {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999;
+}
+
+li.list-group-item {
+  cursor: pointer;
+  transition: all ease .3s;
+}

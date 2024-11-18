@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
+import { MenuItem } from './menu-item.interface';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'maps-side-menu',
+  selector: 'side-menu',
+  standalone: true,
+  imports: [ CommonModule, RouterModule ],
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.css']
 })
-export class SideMenuComponent {
+export class SideMenuAloneComponent {
   public readonly menuItem: MenuItem[] = [
     { route: '/maps/fullscreen', name: 'Full Screen' },
     { route: '/maps/zoom-range', name: 'Zoom Range' },
@@ -14,7 +19,3 @@ export class SideMenuComponent {
   ];
 }
 
-interface MenuItem {
-  name: string;
-  route: string;
-}
