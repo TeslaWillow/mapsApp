@@ -1,3 +1,10 @@
-<p>
-  miniMap works!
-</p>
+<ng-container *ngIf="lngLat">
+  <mgl-map
+    [style]="mapOptions.style"
+    [zoom]="[mapOptions.zoom]"
+    [center]="mapOptions.center"
+    [interactive]="mapOptions.interactive"
+    (mapLoad)="setMap($event);"
+    class="mini-map"
+  />
+</ng-container>
