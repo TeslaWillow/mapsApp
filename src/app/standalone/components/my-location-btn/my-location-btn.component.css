@@ -1,0 +1,20 @@
+.fluent-btn {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+}
+
+.btn-location {
+  background-color: rgb(49, 49, 49);
+  border-radius: 50px;
+  border: none;
+  color: white;
+  font-size: 28px;
+  height: 65px;
+  transition: all ease .3s;
+  width: 65px;
+}
+
+.btn-location:hover {
+  box-shadow: 0 0 10px black;
+}

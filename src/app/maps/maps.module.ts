@@ -11,7 +11,6 @@ import { ZoomRangePageComponent } from './pages/zoom-range-page/zoom-range-page.
 import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
 import { SideMenuAloneComponent } from '../standalone/components/side-menu/side-menu.component';
 
-
 @NgModule({
   declarations: [
     MiniMapComponent,

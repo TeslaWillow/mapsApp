@@ -28,6 +28,10 @@ const routes: Routes = [
         component: PropertiesPageComponent,
       },
       {
+        path: 'routes',
+        loadComponent: () => import('./pages/poly-line/poly-line.component'),
+      },
+      {
         path: '**',
         redirectTo: 'fullscreen',
       }

@@ -1,0 +1,19 @@
+<ng-container *ngIf="!isUserLocationReady; else showMap">
+  <div class="d-flex justify-content-center align-items-center w-100 mh-100vh">
+    <div class="text-center">
+      <h1>WAIT...</h1>
+    </div>
+  </div>
+</ng-container>
+<ng-template #showMap>
+  <div class="div">
+    <mgl-map
+      [style]="mapOptions.style"
+      [zoom]="[mapOptions.zoom]"
+      [center]="mapOptions.center"
+      (mapLoad)="setMap($event);"
+      class="fullscreen"
+    />
+    <my-location-btn (onClickedBtn)="flyToMyCurrentLocation();" />
+  </div>
+</ng-template>
