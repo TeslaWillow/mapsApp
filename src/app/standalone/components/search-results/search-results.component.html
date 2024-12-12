@@ -1,0 +1,20 @@
+<div class="alert alert-primary mt-2 text-center" *ngIf="isLoadingPlaces">
+  <h6>Loading</h6>
+  <span>Wait please...</span>
+</div>
+
+<ul class="list-group mt-2" *ngIf="!isLoadingPlaces && foundLocations.length > 0">
+  <ng-container *ngFor="let foundLocation of foundLocations">
+    <li class="list-group-item list-group-item-action pointer" >
+      <h6>
+        {{ foundLocation.properties.country }}
+      </h6>
+      <p>
+        {{ foundLocation.properties.label }}
+      </p>
+      <button class="btn tbn-sm btn-outline-primary">
+        <i class="bi bi-arrow-90deg-right"></i> Directions
+      </button>
+    </li>
+  </ng-container>
+</ul>

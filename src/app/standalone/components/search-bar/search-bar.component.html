@@ -1,0 +1,12 @@
+<div class="search-container">
+  <input
+    #txtQuery
+    type="text"
+    class="form-control"
+    placeholder="Search place..."
+    (keyup)="onQueryChanged(txtQuery.value);"
+    [disabled]="isLoadingPlaces"
+  />
+
+  <search-results />
+</div>

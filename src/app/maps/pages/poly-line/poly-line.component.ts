@@ -5,10 +5,11 @@ import { PlacesService } from '../../services/places.service';
 import { MyLocationBtnComponent } from 'src/app/standalone/components/my-location-btn/my-location-btn.component';
 import { NgxMapLibreGLModule } from '@maplibre/ngx-maplibre-gl';
 import { CommonModule } from '@angular/common';
+import { SearchBarComponent } from 'src/app/standalone/components/search-bar/search-bar.component';
 
 @Component({
   selector: 'app-poly-line',
-  imports: [ CommonModule, MyLocationBtnComponent, NgxMapLibreGLModule ],
+  imports: [ CommonModule, MyLocationBtnComponent, NgxMapLibreGLModule, SearchBarComponent ],
   standalone: true,
   templateUrl: './poly-line.component.html',
   styleUrls: ['./poly-line.component.css']
@@ -43,9 +44,7 @@ export default class PolyLineComponent {
   public focusOnCurrentLocation(): void {
     if(!this.map) return;
 
-    const popUp = new Popup().setHTML(`
-       <h6>Here I'm I</h6>
-    `);
+    const popUp = new Popup().setHTML(`<h6>Here I'm I</h6>`);
 
     this.currentLocationMarker = this.createMarker(this.currentUserPos)
       .setPopup(popUp)

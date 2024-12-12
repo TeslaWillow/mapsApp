@@ -1,0 +1,10 @@
+.pointer { cursor: pointer; }
+
+p { font-size: 12px; }
+
+
+.list-group {
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}

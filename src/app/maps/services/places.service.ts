@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import { tap } from 'rxjs';
+import { StadiaSearchQueryResponce, Feature } from '../interfaces/search-location.interface';
+import { LngLat, Map } from 'maplibre-gl';
+import { PlacesApiClient } from '../api/placesApiClient';
 
 @Injectable({
   providedIn: 'root'
@@ -6,15 +10,20 @@ import { Injectable } from '@angular/core';
 export class PlacesService {
 
   private _supportGeolocation = !!navigator.geolocation;
+  private _stadiaMapsUrl: string = "https://api.stadiamaps.com/geocoding/v1";
+  private _mapDirections: Map;
+  private _foundLocations: Feature[] = [];
   public userLocation: [number, number] | undefined;
+  public loadingPlaces: boolean = false;
 
-  constructor() {
+  constructor(
+    private _http: PlacesApiClient,
+  ) {
     this._setUserLocation();
   }
 
-  public get isUserLocationReady(): boolean {
-    return !!this.userLocation;
-  }
+  public get isUserLocationReady(): boolean { return !!this.userLocation; }
+  public get foundLocations(): Feature[] { return [...this._foundLocations] };
 
   private _setUserLocation(): void {
     if(!this._supportGeolocation){
@@ -38,4 +47,36 @@ export class PlacesService {
       );
     });
   }
+
+  public setMapDirectionsObject( map: Map ): void {
+    this._mapDirections = map;
+  }
+
+  public searchPlace( query: string ): void {
+    if( !query || !this.isUserLocationReady ) return;
+
+    const boundaryRadius: number = 50;
+    this.loadingPlaces = true;
+    this._http.get<StadiaSearchQueryResponce>(`/search`, {
+      params: {
+        "text": query,
+        "boundary.circle.lat":    this.userLocation[1],
+        "boundary.circle.lon":    this.userLocation[0],
+        "boundary.circle.radius": boundaryRadius
+      }
+    })
+      .pipe(
+        tap(() => this.loadingPlaces = false ),
+        tap(({ features }) => this._foundLocations = features ),
+      )
+      .subscribe({});
+  }
+
+  public flyTo( coords: LngLat ): void {
+    this._mapDirections.flyTo({
+      zoom: 14,
+      center: coords,
+    });
+  }
+
 }
