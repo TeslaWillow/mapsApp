@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { StadiaSearchQueryResponce, Feature } from '../interfaces/search-location.interface';
-import { LngLat, Map, Marker, MarkerOptions } from 'maplibre-gl';
+import { LngLat, LngLatBounds, Map, Marker, MarkerOptions } from 'maplibre-gl';
 import { PlacesApiClient } from '../api/placesApiClient';
 
 @Injectable({
@@ -9,8 +9,7 @@ import { PlacesApiClient } from '../api/placesApiClient';
 })
 export class PlacesService {
 
-  private _supportGeolocation = !!navigator.geolocation;
-  private _stadiaMapsUrl: string = "https://api.stadiamaps.com/geocoding/v1";
+  private _supportGeolocation: boolean = !!navigator.geolocation;
   private _mapDirections: Map;
   private _foundLocations: Feature[] = [];
   private _markers: Marker[] = [];
@@ -25,6 +24,7 @@ export class PlacesService {
 
   public get isUserLocationReady(): boolean { return !!this.userLocation; }
   public get foundLocations(): Feature[] { return [...this._foundLocations] };
+  public get currentUserPos(): LngLat { return new LngLat( this.userLocation[0] , this.userLocation[1]) }
 
   private _setUserLocation(): void {
     if(!this._supportGeolocation){
@@ -77,7 +77,12 @@ export class PlacesService {
         tap(() => this.loadingPlaces = false ),
         tap(({ features }) => {
           this._foundLocations = features;
+          if(this._foundLocations.length <= 0) {
+            this._clearMarkers();
+            return;
+          }
           this._addMarkers(this._foundLocations);
+          this._fitMapBounds();
         }),
       )
       .subscribe({});
@@ -111,6 +116,14 @@ export class PlacesService {
       const marker = this.createMarker( new LngLat(lng, lat), 'blue' ).addTo(this._mapDirections);
       this._markers.push(marker);
     }
+  }
+
+  private _fitMapBounds(): void {
+    const bounds = new LngLatBounds();
+    this._markers.forEach( m => bounds.extend( m.getLngLat() ) );
+    bounds.extend( this.currentUserPos );
+
+    this._mapDirections.fitBounds(bounds, { padding: 200 });
   }
 
   private _clearMarkers(): void {

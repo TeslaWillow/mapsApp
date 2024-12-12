@@ -31,9 +31,7 @@ export default class PolyLineComponent {
   ) {}
 
   public get isUserLocationReady(): boolean { return this._places.isUserLocationReady; }
-  public get currentUserPos(): LngLat {
-    return new LngLat( this._places.userLocation[0] , this._places.userLocation[1])
-  }
+  public get currentUserPos(): LngLat { return this._places.currentUserPos; }
 
   public setMap( map: Map ): void {
     this.map = map;
