@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { StadiaSearchQueryResponce, Feature } from '../interfaces/search-location.interface';
-import { LngLat, Map } from 'maplibre-gl';
+import { LngLat, Map, Marker, MarkerOptions } from 'maplibre-gl';
 import { PlacesApiClient } from '../api/placesApiClient';
 
 @Injectable({
@@ -53,7 +53,13 @@ export class PlacesService {
   }
 
   public searchPlace( query: string ): void {
-    if( !query || !this.isUserLocationReady ) return;
+    if( !this.isUserLocationReady ) return;
+
+    if(!query) {
+      this._foundLocations = [];
+      this.loadingPlaces = false;
+      return;
+    }
 
     const boundaryRadius: number = 50;
     this.loadingPlaces = true;
@@ -73,10 +79,21 @@ export class PlacesService {
   }
 
   public flyTo( coords: LngLat ): void {
+    if( !this._mapDirections ) return;
+
     this._mapDirections.flyTo({
       zoom: 14,
       center: coords,
     });
+  }
+
+  public createMarker( lngLat: LngLat, color: string = "red" ): Marker {
+    const markerOptions: MarkerOptions = {
+      color,
+      draggable: false,
+    };
+
+    return new Marker(markerOptions).setLngLat( lngLat );
   }
 
 }

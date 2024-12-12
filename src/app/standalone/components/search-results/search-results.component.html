@@ -5,14 +5,21 @@
 
 <ul class="list-group mt-2" *ngIf="!isLoadingPlaces && foundLocations.length > 0">
   <ng-container *ngFor="let foundLocation of foundLocations">
-    <li class="list-group-item list-group-item-action pointer" >
+    <li
+      class="list-group-item list-group-item-action pointer"
+      [class.active]="currentPlace == foundLocation.properties.id"
+      (click)="flyTo( foundLocation );"
+    >
       <h6>
         {{ foundLocation.properties.country }}
       </h6>
       <p>
         {{ foundLocation.properties.label }}
       </p>
-      <button class="btn tbn-sm btn-outline-primary">
+      <button
+        class="btn tbn-sm"
+        [ngClass]="(currentPlace == foundLocation.properties.id) ? 'btn-light' : 'btn-outline-primary'"
+      >
         <i class="bi bi-arrow-90deg-right"></i> Directions
       </button>
     </li>

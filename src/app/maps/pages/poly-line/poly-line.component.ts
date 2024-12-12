@@ -37,6 +37,7 @@ export default class PolyLineComponent {
 
   public setMap( map: Map ): void {
     this.map = map;
+    this._places.setMapDirectionsObject(this.map);
     this.map.setCenter( this.currentUserPos );
     this.focusOnCurrentLocation();
   }
@@ -46,29 +47,14 @@ export default class PolyLineComponent {
 
     const popUp = new Popup().setHTML(`<h6>Here I'm I</h6>`);
 
-    this.currentLocationMarker = this.createMarker(this.currentUserPos)
+    this.currentLocationMarker = this._places.createMarker(this.currentUserPos)
       .setPopup(popUp)
       .addTo( this.map );
   }
 
-  public createMarker( lngLat: LngLat, color: string = "red" ): Marker {
-    if(!this.map) return null;
-
-    const markerOptions: MarkerOptions = {
-      color,
-      draggable: true,
-    };
-
-    return new Marker(markerOptions).setLngLat( lngLat );
-  }
-
   public flyToMyCurrentLocation(): void { this.flyTo( this.currentLocationMarker ); }
 
-  public flyTo( marker: Marker ): void {
-    this.map?.flyTo({
-      zoom: 14,
-      center: marker.getLngLat(),
-    });
-  }
+  public flyTo( marker: Marker ): void { this._places.flyTo( marker.getLngLat() ); }
+
 
 }
