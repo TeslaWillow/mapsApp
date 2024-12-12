@@ -13,6 +13,7 @@ export class PlacesService {
   private _stadiaMapsUrl: string = "https://api.stadiamaps.com/geocoding/v1";
   private _mapDirections: Map;
   private _foundLocations: Feature[] = [];
+  private _markers: Marker[] = [];
   public userLocation: [number, number] | undefined;
   public loadingPlaces: boolean = false;
 
@@ -58,6 +59,7 @@ export class PlacesService {
     if(!query) {
       this._foundLocations = [];
       this.loadingPlaces = false;
+      this._clearMarkers();
       return;
     }
 
@@ -73,7 +75,10 @@ export class PlacesService {
     })
       .pipe(
         tap(() => this.loadingPlaces = false ),
-        tap(({ features }) => this._foundLocations = features ),
+        tap(({ features }) => {
+          this._foundLocations = features;
+          this._addMarkers(this._foundLocations);
+        }),
       )
       .subscribe({});
   }
@@ -94,6 +99,23 @@ export class PlacesService {
     };
 
     return new Marker(markerOptions).setLngLat( lngLat );
+  }
+
+  private _addMarkers( features: Feature[] ): void {
+    if( !this._mapDirections ) return;
+
+    this._clearMarkers();
+
+    for (const feature of features) {
+      const [ lng, lat ] = feature.geometry.coordinates;
+      const marker = this.createMarker( new LngLat(lng, lat), 'blue' ).addTo(this._mapDirections);
+      this._markers.push(marker);
+    }
+  }
+
+  private _clearMarkers(): void {
+    this._markers.forEach( m => m.remove() );
+    this._markers = [];
   }
 
 }
