@@ -43,7 +43,7 @@ export default class PolyLineComponent {
   public focusOnCurrentLocation(): void {
     if(!this.map) return;
 
-    const popUp = new Popup().setHTML(`<h6>Here I'm I</h6>`);
+    const popUp = new Popup().setHTML(`<h6>I'm Here</h6>`);
 
     this.currentLocationMarker = this._places.createMarker(this.currentUserPos)
       .setPopup(popUp)

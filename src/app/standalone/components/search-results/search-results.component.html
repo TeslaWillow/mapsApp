@@ -19,6 +19,7 @@
       <button
         class="btn tbn-sm"
         [ngClass]="(currentPlace == foundLocation.properties.id) ? 'btn-light' : 'btn-outline-primary'"
+        (click)="createRoute(foundLocation);"
       >
         <i class="bi bi-arrow-90deg-right"></i> Directions
       </button>

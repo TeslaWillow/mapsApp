@@ -29,4 +29,9 @@ export class SearchResultsComponent {
     this._places.flyTo( new LngLat( lng, lat ) );
   }
 
+  public createRoute( place: Feature ): void {
+    this._places.clearFoundPlaces();
+    this._places.createRoute( place );
+  }
+
 }
